@@ -11,26 +11,27 @@ import com.example.firebase.ui.view.InsertMhsView
 
 
 @Composable
-fun PengelolaHalaman (
+fun PengelolaHalaman(
     modifier: Modifier,
-    navController : NavHostController = rememberNavController()
-){
+    navController: NavHostController = rememberNavController()
+) {
     NavHost(
         navController = navController,
         startDestination = DestinasiHome.route,
         modifier = Modifier
-    ){
-        composable(DestinasiHome.route){
+    ) {
+        composable(DestinasiHome.route) {
             HomeScreen(
                 navigateToItemEntry = {
-                    navController.navigate(DestinasiHome.route)
+                    navController.navigate(DestinasiInsert.route)
                 },
             )
         }
-        composable(DestinasiInsert.route){
+        composable(DestinasiInsert.route) {
             InsertMhsView(
                 onBack = { navController.popBackStack() },
-                onNavigate = { navController.navigate(DestinasiHome.route) }
+                onNavigate = {
+                    navController.navigate(DestinasiHome.route) }
             )
         }
     }

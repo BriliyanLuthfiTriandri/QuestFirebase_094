@@ -39,7 +39,80 @@ import com.example.firebase.ui.viewmodel.PenyediaViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun InsertMhsView(
+    onBack: () -> Unit,
+    onNavigate: () -> Unit,
+    modifier: Modifier = Modifier,
+    viewModel: InsertViewModel = viewModel(factory = PenyediaViewModel.Factory)
+) {
+    val uiState = viewModel.uiState // State utama untuk loading, success, error
+    val uiEvent = viewModel.uiEvent // State untuk form dan validasi
+    val snackbarHostState = remember { SnackbarHostState() }
+    val coroutineScope = rememberCoroutineScope()
 
+    // Observasi perubahan state untuk snackbar dan navigasi
+    LaunchedEffect(uiState) {
+        when (uiState) {
+            is FormState.Success -> {
+                println(
+                    "InsertMhsView: uiState is FormState.Success, navigate to home " + uiState.message
+                )
+                coroutineScope.launch {
+                    snackbarHostState.showSnackbar(uiState.message) //Tampilkan snackbar
+                }
+                delay(700)
+                // Navigasi langsung
+                onNavigate()
+
+                viewModel.resetSnackBarMessage() // Reset snackbar State
+            }
+
+            is FormState.Error -> {
+                coroutineScope.launch {
+                    snackbarHostState.showSnackbar(uiState.message)
+                }
+            }
+
+            else -> Unit
+        }
+    }
+
+    Scaffold(
+        modifier = modifier,
+        snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
+        topBar = {
+            TopAppBar(
+                title = { SnackbarHost(hostState = snackbarHostState) },
+                navigationIcon = {
+                    Button(onClick = onBack) {
+                        Text("Back")
+                    }
+                }
+            )
+        }
+    ) { padding ->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(padding)
+                .padding(16.dp)
+        ) {
+            InsertBodyMhs(
+                uiState = uiEvent,
+                homeUiState = uiState,
+                onValueChange = { updatedEvent -> viewModel.updateState(updatedEvent) },
+                onClick = {
+                    if (viewModel.validateFields()) {
+                        viewModel.insertMhs()
+                        //onNavigate()
+                    }
+                }
+            )
+        }
+    }
+}
 
 @Composable
 fun InsertBodyMhs(

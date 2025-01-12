@@ -9,6 +9,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.firebase.ui.view.HomeScreen
 import com.example.firebase.ui.view.InsertMhsView
 
+
 @Composable
 fun PengelolaHalaman (
     modifier: Modifier,
@@ -26,7 +27,6 @@ fun PengelolaHalaman (
                 },
             )
         }
-
         composable(DestinasiInsert.route){
             InsertMhsView(
                 onBack = { navController.popBackStack() },

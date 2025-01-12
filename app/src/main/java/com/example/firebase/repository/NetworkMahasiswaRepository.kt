@@ -7,6 +7,7 @@ import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 
+
 class NetworkMahasiswaRepository(
     private val firestore: FirebaseFirestore
 ) : MahasiswaRepository {
@@ -27,7 +28,6 @@ class NetworkMahasiswaRepository(
         }
 
     }
-
     override suspend fun insertMahasiswa(mahasiswa: Mahasiswa) {
         TODO("Not yet implemented")
     }

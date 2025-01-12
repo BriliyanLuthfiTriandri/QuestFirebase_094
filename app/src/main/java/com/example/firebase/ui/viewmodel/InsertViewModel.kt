@@ -1,6 +1,23 @@
 package com.example.firebase.ui.viewmodel
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.firebase.model.Mahasiswa
+import com.example.firebase.repository.MahasiswaRepository
+import kotlinx.coroutines.launch
 
+
+
+
+sealed class FormState {
+    object Idle : FormState()
+    object Loading : FormState()
+    data class Success(val message: String) : FormState()
+    data class Error(val message: String) : FormState()
+}
 
 data class InsertUiState(
     val insertUiEvent: MahasiswaEvent = MahasiswaEvent(),

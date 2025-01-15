@@ -3,10 +3,8 @@ package com.example.firebase.ui.view
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.KeyboardOptions
@@ -97,7 +95,7 @@ fun InsertMhsView(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(padding)
-                .padding(16.dp)
+                .padding(10.dp)
         ) {
             InsertBodyMhs(
                 uiState = uiEvent,
@@ -143,7 +141,6 @@ fun InsertBodyMhs(
                     color = Color.White,
                     modifier = Modifier
                         .size(20.dp)
-                        .padding(end = 8.dp)
                 )
                 Text("Loading...")
             } else {
@@ -197,7 +194,6 @@ fun FormMahasiswa(
             color = Color.Red
         )
 
-        Spacer(modifier = Modifier.height(16.dp))
         Text(text = "Jenis Kelamin")
         Row(
             modifier = Modifier.fillMaxWidth()
@@ -237,7 +233,6 @@ fun FormMahasiswa(
             color = Color.Red
         )
 
-        Spacer(modifier = Modifier.height(16.dp))
         Text(text = "Kelas")
         Row {
             kelas.forEach { kelas ->
@@ -273,6 +268,36 @@ fun FormMahasiswa(
         )
         Text(
             text = errorState.angkatan ?: "",
+            color = Color.Red
+        )
+
+        OutlinedTextField(
+            modifier = Modifier.fillMaxWidth(),
+            value = mahasiswaEvent.judul_skripsi,
+            onValueChange = {
+                onValueChange(mahasiswaEvent.copy(judul_skripsi = it))
+            },
+            label = { Text("Judul Skripsi") },
+            isError = errorState.judul_skripsi != null,
+            placeholder = { Text("Masukkan Judul Skripsi") },
+            )
+        Text(
+            text = errorState.judul_skripsi ?: "",
+            color = Color.Red
+        )
+
+        OutlinedTextField(
+            modifier = Modifier.fillMaxWidth(),
+            value = mahasiswaEvent.dosen_pembimbing,
+            onValueChange = {
+                onValueChange(mahasiswaEvent.copy(dosen_pembimbing = it))
+            },
+            label = { Text("Dosen Pembimbing") },
+            isError = errorState.dosen_pembimbing != null,
+            placeholder = { Text("Masukkan Dosen Pembimbing") },
+        )
+        Text(
+            text = errorState.dosen_pembimbing ?: "",
             color = Color.Red
         )
     }
